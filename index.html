@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tây Ninh Trong Mắt Bạn — Cổng du lịch Tây Ninh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEDC;
+    --paper-2:#EFE4C8;
+    --ink:#241F17;
+    --ink-soft:#5B5142;
+    --temple-blue:#2B4C7E;
+    --temple-blue-deep:#1B3252;
+    --temple-gold:#D9A441;
+    --temple-gold-soft:#F0D9A0;
+    --temple-red:#A63446;
+    --mountain-green:#4C6444;
+    --mountain-green-soft:#7C9470;
+    --line:#D9C79E;
+    --white:#FFFCF4;
+    --shadow:0 10px 30px -12px rgba(36,31,23,.35);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Be Vietnam Pro',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces',serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- background texture ---------- */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:999;
+    opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- divine eye signature ---------- */
+  .eye-mark{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;}
+  .eye-mark svg{width:100%;height:100%;display:block;}
+
+  /* ---------- header ---------- */
+  header.hero{
+    position:relative;
+    background:radial-gradient(120% 140% at 15% -10%, #345C90 0%, var(--temple-blue) 42%, var(--temple-blue-deep) 100%);
+    color:var(--white);
+    overflow:hidden;
+    padding-bottom:64px;
+  }
+  .hero-top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 6vw 0;
+    position:relative;z-index:3;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;}
+  .brand .eye-mark{width:26px;height:26px;color:var(--temple-gold);}
+  .brand-name{font-size:15px;}
+  .brand-name small{display:block;font-weight:400;opacity:.75;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+  .lang-pill{
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid rgba(255,255,255,.35);border-radius:999px;
+    padding:6px 12px;opacity:.85;
+  }
+  .hero-body{
+    position:relative;z-index:3;
+    padding:56px 6vw 0;
+    max-width:760px;
+  }
+  .hero-eyebrow{
+    display:flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--temple-gold-soft);margin-bottom:18px;font-weight:600;
+  }
+  .hero-eyebrow .rule{width:28px;height:1px;background:var(--temple-gold-soft);}
+  header.hero h1{
+    font-size:clamp(34px,6vw,58px);
+    line-height:1.04;font-weight:600;margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  header.hero h1 em{font-style:italic;color:var(--temple-gold-soft);}
+  header.hero p.lede{
+    font-size:16px;line-height:1.65;max-width:520px;color:rgba(255,252,244,.86);
+    margin:0 0 30px;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 22px;border-radius:999px;font-weight:600;font-size:14px;
+    border:1px solid transparent;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-gold{background:var(--temple-gold);color:var(--temple-blue-deep);}
+  .btn-gold:hover{box-shadow:0 8px 20px -8px rgba(217,164,65,.7);}
+  .btn-ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.4);}
+  .btn-ghost:hover{background:rgba(255,255,255,.08);}
+
+  /* mountain silhouette divider */
+  .mountain-divider{position:absolute;left:0;right:0;bottom:0;z-index:2;line-height:0;}
+  .mountain-divider svg{width:100%;height:auto;display:block;}
+
+  /* floating divine-eye halo motif */
+  .halo{
+    position:absolute;right:-60px;top:-60px;width:420px;height:420px;
+    border-radius:50%;border:1px solid rgba(217,164,65,.25);z-index:1;
+  }
+  .halo::before{
+    content:"";position:absolute;inset:44px;border-radius:50%;
+    border:1px solid rgba(217,164,65,.18);
+  }
+
+  /* ---------- QR panel ---------- */
+  .qr-wrap{
+    position:relative;z-index:3;
+    margin:0 6vw 0;
+    background:var(--white);
+    border-radius:20px;
+    padding:22px;
+    display:flex;gap:20px;align-items:center;flex-wrap:wrap;
+    box-shadow:var(--shadow);
+    color:var(--ink);
+    transform:translateY(40px);
+  }
+  .qr-img-box{
+    width:120px;height:120px;border-radius:12px;overflow:hidden;flex:none;
+    border:1px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .qr-img-box img{width:100%;height:100%;object-fit:contain;}
+  .qr-info{flex:1;min-width:220px;}
+  .qr-info h3{margin:0 0 6px;font-size:17px;}
+  .qr-info p{margin:0 0 12px;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .qr-form{display:flex;gap:8px;flex-wrap:wrap;}
+  .qr-form input{
+    flex:1;min-width:180px;
+    border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+    background:var(--paper);color:var(--ink);
+  }
+  .qr-form button{
+    border:none;border-radius:10px;padding:10px 16px;
+    background:var(--temple-blue);color:#fff;font-weight:600;font-size:13px;cursor:pointer;
+  }
+  .qr-form button:hover{background:var(--temple-blue-deep);}
+
+  /* spacer after floated qr card */
+  .hero-spacer{height:56px;}
+
+  /* ---------- nav tabs ---------- */
+  nav.tabs{
+    position:sticky;top:0;z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:10px 6vw;
+    display:flex;gap:6px;overflow-x:auto;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:none;
+    display:flex;align-items:center;gap:7px;
+    padding:9px 15px;border-radius:999px;
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);
+    background:transparent;border:1px solid transparent;cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .tab-btn:hover{background:var(--paper-2);}
+  .tab-btn.active{
+    background:var(--temple-blue);color:#fff;
+    box-shadow:0 6px 14px -6px rgba(43,76,126,.6);
+  }
+  .tab-btn .eye-mark{width:14px;height:14px;opacity:.85;}
+
+  /* ---------- main sections ---------- */
+  main{padding:38px 6vw 90px;max-width:1180px;margin:0 auto;}
+  .section-head{margin-bottom:26px;}
+  .section-eyebrow{
+    display:flex;align-items:center;gap:8px;
+    font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--temple-red);font-weight:700;margin-bottom:8px;
+  }
+  .section-eyebrow .rule{width:22px;height:1px;background:var(--temple-red);}
+  .section-head h2{font-size:clamp(24px,3.2vw,32px);margin:0 0 8px;font-weight:600;}
+  .section-head p{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:560px;line-height:1.55;}
+
+  .toolbar{
+    display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 26px;align-items:center;
+  }
+  .search-input{
+    flex:1;min-width:200px;
+    padding:11px 15px;border-radius:10px;border:1px solid var(--line);
+    background:var(--white);font-size:14px;color:var(--ink);
+  }
+  .chip-filter{
+    display:flex;gap:8px;flex-wrap:wrap;
+  }
+  .chip{
+    padding:8px 13px;border-radius:999px;border:1px solid var(--line);
+    background:var(--white);font-size:12.5px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .chip.active{background:var(--mountain-green);border-color:var(--mountain-green);color:#fff;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+  .card-media{
+    height:150px;position:relative;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-family:'Fraunces',serif;font-size:15px;text-align:center;
+    padding:14px;
+  }
+  .card-media span{opacity:.9;}
+  .card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px;}
+  .card-tag{
+    align-self:flex-start;
+    font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--paper-2);color:var(--ink-soft);padding:4px 9px;border-radius:6px;
+  }
+  .card-body h3{margin:0;font-size:16.5px;font-weight:600;}
+  .card-body p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.5;flex:1;}
+  .card-meta{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:12.5px;color:var(--ink-soft);padding-top:8px;border-top:1px dashed var(--line);
+  }
+  .rating{display:flex;align-items:center;gap:4px;color:var(--temple-gold);font-weight:700;}
+  .price-tag{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--temple-blue-deep);}
+
+  /* transport tables */
+  .transport-block{margin-bottom:34px;}
+  .transport-block h3{font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  table.timetable{
+    width:100%;border-collapse:collapse;background:var(--white);
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  }
+  table.timetable th,table.timetable td{
+    padding:12px 14px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--line);
+  }
+  table.timetable th{
+    background:var(--paper-2);font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;
+  }
+  table.timetable tr:last-child td{border-bottom:none;}
+  table.timetable td.price{font-family:'IBM Plex Mono',monospace;color:var(--temple-blue-deep);font-weight:600;}
+  .taxi-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+  .taxi-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:16px;
+  }
+  .taxi-card h4{margin:0 0 6px;font-size:15px;}
+  .taxi-card .price{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--temple-red);font-weight:600;}
+  .taxi-card .price small{font-size:11px;font-weight:400;color:var(--ink-soft);}
+  .taxi-card p{font-size:12px;color:var(--ink-soft);margin:8px 0 0;line-height:1.5;}
+
+  /* community */
+  .community-grid{display:grid;grid-template-columns:1fr;gap:22px;}
+  @media(min-width:880px){.community-grid{grid-template-columns:380px 1fr;}}
+  .upload-panel{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;position:sticky;top:78px;height:max-content;
+  }
+  .upload-panel h3{margin:0 0 4px;font-size:17px;}
+  .upload-panel .hint{font-size:12.5px;color:var(--ink-soft);margin:0 0 16px;line-height:1.5;}
+  .drop-zone{
+    border:1.5px dashed var(--line);border-radius:10px;
+    padding:22px 14px;text-align:center;cursor:pointer;
+    color:var(--ink-soft);font-size:13px;margin-bottom:14px;
+    background:var(--paper);
+  }
+  .drop-zone.has-img{padding:0;border-style:solid;}
+  .drop-zone img{width:100%;height:150px;object-fit:cover;border-radius:9px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:5px;}
+  .field input,.field select,.field textarea{
+    width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;
+    font-family:'Be Vietnam Pro',sans-serif;font-size:13.5px;background:var(--paper);color:var(--ink);
+  }
+  .field textarea{resize:vertical;min-height:70px;}
+  .stars-input{display:flex;gap:4px;font-size:22px;cursor:pointer;color:var(--line);margin-top:2px;}
+  .stars-input span.on{color:var(--temple-gold);}
+  .submit-btn{
+    width:100%;padding:12px;border:none;border-radius:10px;
+    background:var(--mountain-green);color:#fff;font-weight:700;font-size:14px;cursor:pointer;
+  }
+  .submit-btn:hover{background:#3d5238;}
+  .moderation-note{
+    display:flex;gap:8px;margin-top:12px;padding:10px 12px;border-radius:9px;
+    background:var(--paper-2);font-size:11.5px;color:var(--ink-soft);line-height:1.5;
+  }
+  .form-msg{font-size:12.5px;margin-top:10px;padding:9px 11px;border-radius:8px;display:none;}
+  .form-msg.show{display:block;}
+  .form-msg.ok{background:#E4EEDD;color:#3d5238;}
+  .form-msg.err{background:#F3DCDC;color:#8C2E2E;}
+
+  .review-feed{display:flex;flex-direction:column;gap:14px;}
+  .review-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;display:flex;gap:14px;
+  }
+  .review-thumb{
+    width:84px;height:84px;border-radius:9px;flex:none;object-fit:cover;background:var(--paper-2);
+  }
+  .review-thumb.placeholder{
+    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:11px;text-align:center;
+  }
+  .review-body{flex:1;min-width:0;}
+  .review-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap;}
+  .review-top strong{font-size:14px;}
+  .review-place{font-size:11.5px;color:var(--temple-blue);font-weight:600;}
+  .badge{
+    font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:3px 8px;border-radius:6px;flex:none;
+  }
+  .badge.approved{background:#E4EEDD;color:#3d5238;}
+  .badge.pending{background:#F0E3C4;color:#8a6a1c;}
+  .review-body p{font-size:13px;color:var(--ink-soft);margin:6px 0 0;line-height:1.5;}
+  .review-stars{color:var(--temple-gold);font-size:13px;margin-top:4px;}
+
+  /* footer */
+  footer{
+    background:var(--temple-blue-deep);color:rgba(255,252,244,.75);
+    padding:34px 6vw 26px;font-size:12.5px;
+  }
+  footer .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:14px;}
+  footer .brand{color:#fff;}
+  footer a.foot-link{color:rgba(255,252,244,.75);text-decoration:none;margin-right:14px;}
+  footer a.foot-link:hover{color:#fff;}
+  .foot-rule{height:1px;background:rgba(255,255,255,.12);margin:16px 0;}
+
+  @media(max-width:640px){
+    .qr-wrap{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="hero">
+  <div class="halo"></div>
+  <div class="hero-top">
+    <div class="brand">
+      <span class="eye-mark">
+        <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="3"/><path d="M14 50 Q50 20 86 50 Q50 80 14 50Z" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="12" fill="currentColor"/></svg>
+      </span>
+      <span class="brand-name">Tây Ninh Trong Mắt Bạn<small>Cổng thông tin du lịch tỉnh Tây Ninh</small></span>
+    </div>
+    <div class="lang-pill">VI</div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow"><span class="rule"></span>Núi Bà Đen · Tòa Thánh Cao Đài · Biên giới Mộc Bài</div>
+    <h1>Một tỉnh, <em>trăm nẻo</em><br>để khám phá</h1>
+    <p class="lede">Toàn bộ điểm đến, quán ăn, chỗ nghỉ, đặc sản và phương tiện di chuyển ở Tây Ninh — gọn trong một trang, cập nhật từ chính du khách đã đến đây.</p>
+    <div class="hero-actions">
+      <a href="#diem-tham-quan" class="btn btn-gold">Khám phá điểm đến</a>
+      <a href="#cong-dong" class="btn btn-ghost">Xem đánh giá cộng đồng</a>
+    </div>
+  </div>
+
+  <div class="mountain-divider">
+    <svg viewBox="0 0 1440 140" preserveAspectRatio="none"><path d="M0,120 L120,80 L240,110 L360,55 L480,95 L600,30 L720,90 L840,60 L960,100 L1080,45 L1200,85 L1320,65 L1440,100 L1440,140 L0,140 Z" fill="#F5EEDC"/></svg>
+  </div>
+</header>
+
+<div class="qr-wrap" id="qr-panel">
+  <div class="qr-img-box"><img id="qr-img" src="" alt="Mã QR liên kết trang du lịch Tây Ninh"></div>
+  <div class="qr-info">
+    <h3>Quét để mở trang trên điện thoại</h3>
+    <p>Mã QR bên dưới trỏ đến địa chỉ trang này. Khi đưa trang lên tên miền chính thức, hãy dán đường dẫn thật vào ô bên dưới để tạo lại mã.</p>
+    <div class="qr-form">
+      <input id="qr-url" type="text" value="https://dulich.tayninh.gov.vn" spellcheck="false">
+      <button id="qr-refresh">Tạo lại mã QR</button>
+    </div>
+  </div>
+</div>
+<div class="hero-spacer"></div>
+
+<!-- ================= NAV ================= -->
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-tab="attractions">🏔️ Điểm tham quan</button>
+  <button class="tab-btn" data-tab="food">🍜 Ăn uống</button>
+  <button class="tab-btn" data-tab="hotels">🏨 Khách sạn</button>
+  <button class="tab-btn" data-tab="souvenirs">🎁 Đặc sản & Lưu niệm</button>
+  <button class="tab-btn" data-tab="transport">🚌 Giao thông</button>
+  <button class="tab-btn" data-tab="community">📸 Cộng đồng</button>
+</nav>
+
+<main>
+
+  <!-- ================= ATTRACTIONS ================= -->
+  <section id="diem-tham-quan" data-panel="attractions">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Điểm tham quan</div>
+      <h2>Từ đỉnh núi thiêng đến biên giới</h2>
+      <p>Những điểm đến làm nên bản sắc Tây Ninh — núi non, tôn giáo, hồ nước và rừng nguyên sinh.</p>
+    </div>
+    <div class="toolbar">
+      <input class="search-input" data-search="attractions" placeholder="Tìm điểm tham quan…">
+      <div class="chip-filter" data-filter="attractions">
+        <div class="chip active" data-value="all">Tất cả</div>
+        <div class="chip" data-value="Tâm linh">Tâm linh</div>
+        <div class="chip" data-value="Thiên nhiên">Thiên nhiên</div>
+        <div class="chip" data-value="Biên giới">Biên giới</div>
+      </div>
+    </div>
+    <div class="grid" id="grid-attractions"></div>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:46px 0;">
+
+  <!-- ================= FOOD ================= -->
+  <section data-panel="food" style="display:none;">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Ăn uống</div>
+      <h2>Hương vị đặc trưng đất Tây Ninh</h2>
+      <p>Bánh tráng phơi sương, bánh canh, muối tôm — chọn quán theo khu vực và mức giá.</p>
+    </div>
+    <div class="toolbar">
+      <input class="search-input" data-search="food" placeholder="Tìm món ăn, quán ăn…">
+      <div class="chip-filter" data-filter="food">
+        <div class="chip active" data-value="all">Tất cả</div>
+        <div class="chip" data-value="Quán ăn">Quán ăn</div>
+        <div class="chip" data-value="Đặc sản">Đặc sản</div>
+        <div class="chip" data-value="Cà phê">Cà phê</div>
+      </div>
+    </div>
+    <div class="grid" id="grid-food"></div>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:46px 0;">
+
+  <!-- ================= HOTELS ================= -->
+  <section data-panel="hotels" style="display:none;">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Khách sạn</div>
+      <h2>Chỗ nghỉ chân theo ngân sách</h2>
+      <p>Từ homestay dưới chân núi đến khách sạn trung tâm thành phố — giá tham khảo mỗi đêm.</p>
+    </div>
+    <div class="toolbar">
+      <input class="search-input" data-search="hotels" placeholder="Tìm khách sạn, khu vực…">
+      <div class="chip-filter" data-filter="hotels">
+        <div class="chip active" data-value="all">Tất cả</div>
+        <div class="chip" data-value="Bình dân">Bình dân</div>
+        <div class="chip" data-value="Trung cấp">Trung cấp</div>
+        <div class="chip" data-value="Cao cấp">Cao cấp</div>
+      </div>
+    </div>
+    <div class="grid" id="grid-hotels"></div>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:46px 0;">
+
+  <!-- ================= SOUVENIRS ================= -->
+  <section data-panel="souvenirs" style="display:none;">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Đặc sản & Lưu niệm</div>
+      <h2>Mang Tây Ninh về nhà</h2>
+      <p>Muối tôm, mãng cầu Bà Đen, bánh tráng — quà tặng đúng chất địa phương.</p>
+    </div>
+    <div class="grid" id="grid-souvenirs"></div>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:46px 0;">
+
+  <!-- ================= TRANSPORT ================= -->
+  <section id="giao-thong" data-panel="transport" style="display:none;">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Giao thông</div>
+      <h2>Di chuyển đến và trong Tây Ninh</h2>
+      <p>Tuyến xe buýt, giá vé và taxi ước tính theo khoảng cách. Giá mang tính tham khảo, có thể thay đổi theo thời điểm.</p>
+    </div>
+
+    <div class="transport-block">
+      <h3>🚌 Tuyến xe buýt chính</h3>
+      <div style="overflow-x:auto;">
+      <table class="timetable">
+        <thead><tr><th>Tuyến</th><th>Điểm đi</th><th>Điểm đến</th><th>Giờ chạy</th><th>Giá vé</th></tr></thead>
+        <tbody id="bus-rows"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="transport-block">
+      <h3>🚕 Taxi & xe công nghệ</h3>
+      <div class="taxi-cards" id="taxi-rows"></div>
+    </div>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:46px 0;">
+
+  <!-- ================= COMMUNITY ================= -->
+  <section id="cong-dong" data-panel="community" style="display:none;">
+    <div class="section-head">
+      <div class="section-eyebrow"><span class="rule"></span>Cộng đồng</div>
+      <h2>Ảnh đẹp & đánh giá từ du khách</h2>
+      <p>Chia sẻ ảnh món ngon, góc chụp đẹp bạn tìm được. Nội dung được kiểm duyệt trước khi hiển thị công khai để đảm bảo phù hợp tiêu chuẩn cộng đồng.</p>
+    </div>
+
+    <div class="community-grid">
+      <div class="upload-panel">
+        <h3>Đăng đánh giá của bạn</h3>
+        <p class="hint">Ảnh và bài viết sẽ được lọc tự động, sau đó xét duyệt trước khi công khai.</p>
+
+        <div class="drop-zone" id="drop-zone">Chạm để chọn ảnh (món ăn, cảnh đẹp…)</div>
+        <input type="file" accept="image/*" id="file-input" style="display:none;">
+
+        <div class="field">
+          <label>Tên bạn</label>
+          <input type="text" id="rv-name" placeholder="VD: Minh Anh">
+        </div>
+        <div class="field">
+          <label>Địa điểm</label>
+          <input type="text" id="rv-place" placeholder="VD: Bánh tráng Trảng Bàng cô Năm">
+        </div>
+        <div class="field">
+          <label>Đánh giá</label>
+          <div class="stars-input" id="stars-input">
+            <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cảm nhận</label>
+          <textarea id="rv-text" placeholder="Món này ngon ở đâu, view đẹp thế nào…"></textarea>
+        </div>
+        <button class="submit-btn" id="rv-submit">Gửi đánh giá</button>
+        <div class="form-msg" id="rv-msg"></div>
+
+        <div class="moderation-note">
+          <span>🛡️</span>
+          <span>Bài viết chứa nội dung phản cảm, quảng cáo hoặc spam sẽ tự động bị chặn và không hiển thị công khai.</span>
+        </div>
+      </div>
+
+      <div class="review-feed" id="review-feed"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-top">
+    <div class="brand">
+      <span class="eye-mark" style="width:18px;height:18px;">
+        <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="4"/><path d="M14 50 Q50 20 86 50 Q50 80 14 50Z" stroke="currentColor" stroke-width="4"/><circle cx="50" cy="50" r="12" fill="currentColor"/></svg>
+      </span>
+      Tây Ninh Trong Mắt Bạn
+    </div>
+    <div>
+      <a class="foot-link" href="#diem-tham-quan">Điểm tham quan</a>
+      <a class="foot-link" href="#giao-thong">Giao thông</a>
+      <a class="foot-link" href="#cong-dong">Cộng đồng</a>
+    </div>
+  </div>
+  <div class="foot-rule"></div>
+  <div>Dữ liệu điểm đến, giá cả và tuyến xe trong trang là dữ liệu minh họa — vui lòng thay bằng dữ liệu chính thức của Sở Văn hóa, Thể thao và Du lịch tỉnh Tây Ninh trước khi vận hành thực tế.</div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------
+   DATA (dữ liệu minh họa — thay bằng dữ liệu thật khi triển khai)
+---------------------------------------------------------- */
+const gradients = [
+  'linear-gradient(135deg,#2B4C7E,#4C6444)',
+  'linear-gradient(135deg,#A63446,#D9A441)',
+  'linear-gradient(135deg,#4C6444,#7C9470)',
+  'linear-gradient(135deg,#1B3252,#2B4C7E)',
+  'linear-gradient(135deg,#D9A441,#A63446)',
+  'linear-gradient(135deg,#7C9470,#2B4C7E)'
+];
+
+const attractions = [
+  {name:'Núi Bà Đen', tag:'Thiên nhiên', desc:'Ngọn núi cao nhất Nam Bộ, có cáp treo lên đỉnh và tượng Phật Bà lớn.', rating:4.8},
+  {name:'Tòa Thánh Cao Đài', tag:'Tâm linh', desc:'Công trình kiến trúc tôn giáo độc đáo, trung tâm đạo Cao Đài.', rating:4.7},
+  {name:'Hồ Dầu Tiếng', tag:'Thiên nhiên', desc:'Hồ nước nhân tạo lớn, thích hợp cắm trại và ngắm hoàng hôn.', rating:4.5},
+  {name:'Vườn quốc gia Lò Gò - Xa Mát', tag:'Thiên nhiên', desc:'Rừng nguyên sinh giáp biên giới, đa dạng sinh học cao.', rating:4.4},
+  {name:'Ma Thiên Lãnh', tag:'Thiên nhiên', desc:'Thung lũng giữa các ngọn núi, không khí mát mẻ quanh năm.', rating:4.3},
+  {name:'Cửa khẩu quốc tế Mộc Bài', tag:'Biên giới', desc:'Cửa khẩu lớn nối Việt Nam - Campuchia, khu miễn thuế sầm uất.', rating:4.1},
+  {name:'Chùa Linh Sơn Tiên Thạch', tag:'Tâm linh', desc:'Ngôi chùa cổ trên núi Bà Đen, gắn liền truyền thuyết Bà Đen.', rating:4.6},
+  {name:'Tháp Chóp Mạt', tag:'Tâm linh', desc:'Di tích tháp cổ Óc Eo hiếm hoi còn lại ở Nam Bộ.', rating:4.0},
+];
+
+const foods = [
+  {name:'Bánh tráng phơi sương Trảng Bàng', tag:'Đặc sản', desc:'Cuốn thịt luộc với hơn 20 loại rau rừng, chấm mắm nêm.', price:'70.000₫ – 120.000₫/phần'},
+  {name:'Bánh canh Trảng Bàng', tag:'Quán ăn', desc:'Sợi bánh canh dai, nước lèo giò heo đậm đà.', price:'35.000₫ – 55.000₫/tô'},
+  {name:'Ốc núi Bà Đen', tag:'Đặc sản', desc:'Ốc núi hấp sả, xào bơ tỏi — món nhậu đặc trưng vùng núi.', price:'90.000₫ – 150.000₫/đĩa'},
+  {name:'Bò tơ Tây Ninh', tag:'Quán ăn', desc:'Thịt bò tơ nướng, lẩu, cuốn bánh tráng — thịt mềm ngọt.', price:'100.000₫ – 200.000₫/set'},
+  {name:'Chè Long Hoa', tag:'Cà phê', desc:'Quán chè lâu năm ở khu vực Long Hoa, đa dạng món chè.', price:'15.000₫ – 25.000₫/ly'},
+  {name:'Cà phê vợt Thị xã', tag:'Cà phê', desc:'Quán cà phê pha vợt kiểu cũ, view phố cổ.', price:'20.000₫ – 35.000₫/ly'},
+];
+
+const hotels = [
+  {name:'Homestay Chân Núi Bà Đen', tag:'Bình dân', desc:'Phòng đơn giản, gần cáp treo, chủ nhà thân thiện.', price:'250.000₫/đêm'},
+  {name:'Khách sạn Hòa Bình', tag:'Trung cấp', desc:'Trung tâm thành phố Tây Ninh, đầy đủ tiện nghi cơ bản.', price:'450.000₫/đêm'},
+  {name:'Sun Valley Resort', tag:'Cao cấp', desc:'Khu nghỉ dưỡng gần hồ Dầu Tiếng, hồ bơi và nhà hàng riêng.', price:'1.200.000₫/đêm'},
+  {name:'Nhà nghỉ Mộc Bài', tag:'Bình dân', desc:'Gần cửa khẩu, tiện cho khách qua lại biên giới.', price:'220.000₫/đêm'},
+  {name:'Tây Ninh Central Hotel', tag:'Trung cấp', desc:'Gần chợ trung tâm, thuận tiện di chuyển tham quan.', price:'500.000₫/đêm'},
+];
+
+const souvenirs = [
+  {name:'Muối tôm Tây Ninh', tag:'Gia vị', desc:'Đặc sản trứ danh, chấm trái cây hoặc rắc bánh tráng.', price:'25.000₫ – 40.000₫/hộp'},
+  {name:'Bánh tráng phơi sương', tag:'Đặc sản khô', desc:'Đóng gói sẵn, tiện mang đi làm quà.', price:'35.000₫ – 60.000₫/túi'},
+  {name:'Mãng cầu (na) Bà Đen', tag:'Trái cây', desc:'Trái to, hạt nhỏ, vị ngọt thanh — theo mùa.', price:'50.000₫ – 80.000₫/kg'},
+  {name:'Mật ong rừng Lò Gò', tag:'Đặc sản khô', desc:'Mật ong nguyên chất khai thác từ rừng đặc dụng.', price:'150.000₫ – 250.000₫/chai'},
+  {name:'Bánh canh khô Trảng Bàng', tag:'Đặc sản khô', desc:'Sợi bánh canh đóng gói, tự nấu tại nhà.', price:'30.000₫/gói'},
+  {name:'Nem bưởi Bến Cầu', tag:'Đặc sản khô', desc:'Món nem chua lạ miệng làm từ bưởi.', price:'40.000₫/hộp'},
+];
+
+const busRoutes = [
+  {code:'703', from:'Bến xe An Sương (TP.HCM)', to:'Bến xe Tây Ninh', hours:'4:30 – 19:00, mỗi 20 phút', price:'55.000₫'},
+  {code:'706', from:'Bến xe Tây Ninh', to:'Cửa khẩu Mộc Bài', hours:'5:00 – 18:00, mỗi 30 phút', price:'30.000₫'},
+  {code:'05', from:'Trung tâm TP. Tây Ninh', to:'Chân núi Bà Đen', hours:'5:30 – 18:30, mỗi 15 phút', price:'12.000₫'},
+  {code:'012', from:'Bến xe Tây Ninh', to:'Hồ Dầu Tiếng', hours:'6:00 – 17:00, mỗi 45 phút', price:'20.000₫'},
+  {code:'014', from:'TP. Tây Ninh', to:'Trảng Bàng', hours:'5:00 – 19:00, mỗi 20 phút', price:'18.000₫'},
+];
+
+const taxis = [
+  {name:'Mai Linh Tây Ninh', price:'11.000₫', desc:'Giá mở cửa 11.000₫/km đầu, các km sau 14.500₫. Tổng đài đặt xe 24/7.'},
+  {name:'Vinasun', price:'12.000₫', desc:'Giá mở cửa 12.000₫/km đầu, hỗ trợ đặt xe qua app.'},
+  {name:'Xe công nghệ (Grab/Be)', price:'~9.500₫', desc:'Giá mỗi km sau km đầu, dao động theo giờ cao điểm.'},
+  {name:'Taxi sân bay/liên tỉnh', price:'750.000₫', desc:'Trọn gói TP.HCM – Tây Ninh, xe 4 chỗ, đã bao gồm phí cầu đường.'},
+];
+
+/* seed community reviews */
+let reviews = [
+  {name:'Thảo Nguyên', place:'Đỉnh Núi Bà Đen', stars:5, text:'Săn mây lúc 5h sáng cực đẹp, đi cáp treo rất tiện. Nhớ mang áo khoác vì trên đỉnh khá lạnh.', img:null, status:'approved'},
+  {name:'Quốc Huy', place:'Bánh tráng phơi sương cô Năm', stars:5, text:'Rau rừng tươi, thịt luộc mềm, chấm mắm nêm đúng vị Trảng Bàng.', img:null, status:'approved'},
+  {name:'Bích Ngọc', place:'Tòa Thánh Cao Đài', stars:4, text:'Kiến trúc độc đáo, nên đi giờ hành lễ trưa để xem nghi thức.', img:null, status:'pending'},
+];
+
+const bannedWords = ['lừa đảo','rác','đm','vcl','địt','ngu','chửi','spam','quảng cáo cờ bạc'];
+
+/* ---------------------------------------------------------
+   RENDER HELPERS
+---------------------------------------------------------- */
+function renderCards(containerId, items, extra){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((it,i)=>{
+    const grad = gradients[i % gradients.length];
+    const metaRight = it.price ? `<span class="price-tag">${it.price}</span>` :
+                       it.rating ? `<span class="rating">★ ${it.rating}</span>` : '';
+    return `<div class="card" data-name="${it.name.toLowerCase()}" data-tag="${it.tag}">
+      <div class="card-media" style="background:${grad}"><span>${it.name}</span></div>
+      <div class="card-body">
+        <span class="card-tag">${it.tag}</span>
+        <h3>${it.name}</h3>
+        <p>${it.desc}</p>
+        <div class="card-meta"><span>Tây Ninh</span>${metaRight}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderBus(){
+  document.getElementById('bus-rows').innerHTML = busRoutes.map(r=>`
+    <tr>
+      <td class="mono">${r.code}</td>
+      <td>${r.from}</td>
+      <td>${r.to}</td>
+      <td>${r.hours}</td>
+      <td class="price">${r.price}</td>
+    </tr>`).join('');
+}
+
+function renderTaxi(){
+  document.getElementById('taxi-rows').innerHTML = taxis.map(t=>`
+    <div class="taxi-card">
+      <h4>${t.name}</h4>
+      <div class="price">${t.price}<small> /km</small></div>
+      <p>${t.desc}</p>
+    </div>`).join('');
+}
+
+function renderReviews(){
+  const el = document.getElementById('review-feed');
+  el.innerHTML = reviews.map(r=>{
+    const thumb = r.img
+      ? `<img class="review-thumb" src="${r.img}" alt="Ảnh của ${r.name}">`
+      : `<div class="review-thumb placeholder">Chưa có ảnh</div>`;
+    const badge = r.status === 'approved'
+      ? '<span class="badge approved">Đã duyệt</span>'
+      : '<span class="badge pending">Chờ duyệt</span>';
+    return `<div class="review-card">
+      ${thumb}
+      <div class="review-body">
+        <div class="review-top">
+          <div><strong>${r.name}</strong><div class="review-place">${r.place}</div></div>
+          ${badge}
+        </div>
+        <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+        <p>${r.text}</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderCards('grid-attractions', attractions);
+renderCards('grid-food', foods);
+renderCards('grid-hotels', hotels);
+renderCards('grid-souvenirs', souvenirs);
+renderBus();
+renderTaxi();
+renderReviews();
+
+/* ---------------------------------------------------------
+   TABS
+---------------------------------------------------------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.dataset.tab;
+    document.querySelectorAll('[data-panel]').forEach(p=>{
+      p.style.display = (p.dataset.panel === target) ? '' : 'none';
+    });
+    window.scrollTo({top: document.getElementById('tabs').offsetTop - 4, behavior:'smooth'});
+  });
+});
+
+/* ---------------------------------------------------------
+   SEARCH + FILTER (attractions/food/hotels)
+---------------------------------------------------------- */
+document.querySelectorAll('[data-search]').forEach(input=>{
+  input.addEventListener('input', ()=>{
+    const key = input.dataset.search;
+    applyFilters(key);
+  });
+});
+document.querySelectorAll('.chip-filter').forEach(group=>{
+  group.addEventListener('click', e=>{
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    applyFilters(group.dataset.filter);
+  });
+});
+function applyFilters(key){
+  const gridId = 'grid-' + key;
+  const search = (document.querySelector(`[data-search="${key}"]`)?.value || '').toLowerCase();
+  const activeChip = document.querySelector(`.chip-filter[data-filter="${key}"] .chip.active`);
+  const tagVal = activeChip ? activeChip.dataset.value : 'all';
+  document.querySelectorAll(`#${gridId} .card`).forEach(card=>{
+    const matchesSearch = card.dataset.name.includes(search);
+    const matchesTag = tagVal === 'all' || card.dataset.tag === tagVal;
+    card.style.display = (matchesSearch && matchesTag) ? '' : 'none';
+  });
+}
+
+/* ---------------------------------------------------------
+   QR CODE GENERATION
+---------------------------------------------------------- */
+function refreshQr(){
+  const url = document.getElementById('qr-url').value.trim() || 'https://dulich.tayninh.gov.vn';
+  document.getElementById('qr-img').src =
+    'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=6&data=' + encodeURIComponent(url);
+}
+document.getElementById('qr-refresh').addEventListener('click', refreshQr);
+refreshQr();
+
+/* ---------------------------------------------------------
+   COMMUNITY UPLOAD + MODERATION
+---------------------------------------------------------- */
+let uploadedImg = null;
+let chosenStars = 0;
+
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+dropZone.addEventListener('click', ()=> fileInput.click());
+fileInput.addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    uploadedImg = ev.target.result;
+    dropZone.classList.add('has-img');
+    dropZone.innerHTML = `<img src="${uploadedImg}" alt="Ảnh đã chọn">`;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('stars-input').addEventListener('click', e=>{
+  const span = e.target.closest('span');
+  if(!span) return;
+  chosenStars = parseInt(span.dataset.v,10);
+  document.querySelectorAll('#stars-input span').forEach(s=>{
+    s.classList.toggle('on', parseInt(s.dataset.v,10) <= chosenStars);
+  });
+});
+
+function containsBannedWord(text){
+  const lower = text.toLowerCase();
+  return bannedWords.some(w => lower.includes(w));
+}
+
+document.getElementById('rv-submit').addEventListener('click', ()=>{
+  const name = document.getElementById('rv-name').value.trim();
+  const place = document.getElementById('rv-place').value.trim();
+  const text = document.getElementById('rv-text').value.trim();
+  const msg = document.getElementById('rv-msg');
+
+  if(!name || !place || !text || chosenStars === 0){
+    msg.textContent = 'Vui lòng điền đủ tên, địa điểm, đánh giá sao và cảm nhận.';
+    msg.className = 'form-msg show err';
+    return;
+  }
+  if(containsBannedWord(text) || containsBannedWord(place) || containsBannedWord(name)){
+    msg.textContent = 'Nội dung chứa từ ngữ không phù hợp tiêu chuẩn cộng đồng và đã bị chặn. Vui lòng chỉnh sửa lại.';
+    msg.className = 'form-msg show err';
+    return;
+  }
+
+  reviews.unshift({
+    name, place, stars: chosenStars, text, img: uploadedImg, status: 'pending'
+  });
+  renderReviews();
+
+  msg.textContent = 'Đã gửi! Bài viết của bạn đang chờ kiểm duyệt trước khi hiển thị công khai.';
+  msg.className = 'form-msg show ok';
+
+  document.getElementById('rv-name').value = '';
+  document.getElementById('rv-place').value = '';
+  document.getElementById('rv-text').value = '';
+  chosenStars = 0;
+  document.querySelectorAll('#stars-input span').forEach(s=>s.classList.remove('on'));
+  uploadedImg = null;
+  dropZone.classList.remove('has-img');
+  dropZone.textContent = 'Chạm để chọn ảnh (món ăn, cảnh đẹp…)';
+});
+</script>
+</body>
+</html>
